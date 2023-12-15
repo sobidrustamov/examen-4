@@ -34,6 +34,8 @@ addEventListener("DOMContentLoaded", async () => {
 
   let responseData = response.data;
   responseData.forEach(async (post) => {
+    console.log(post);
+
     let postWrapper = document.createElement("div");
 
     let postLink = document.createElement("a");
@@ -54,15 +56,40 @@ addEventListener("DOMContentLoaded", async () => {
 
     let postText = document.createElement("p");
     let postDiscrip = document.createElement("span");
+    let deslike = document.createElement("button");
     let likes = document.createElement("div");
     let like = document.createElement("button");
+
+    deslike.addEventListener("click", async (e) => {
+      let response = await axios.put(`/posts/unlike/${post._id}`, {
+        headers: {
+          "x-auth-token": `${localStorage.token}`,
+        },
+      });
+    });
+
+    like.addEventListener("click", async (e) => {
+      let response = await axios.put(`/posts/like/${post._id}`, {
+        headers: {
+          "x-auth-token": `${localStorage.token}`,
+        },
+      });
+    });
+
     like.classList.add("btn", "btn-light", "px-3", "py-1", "my-2");
-    like.innerHTML = `<i class="fas fa-thumbs-up"></i><span></span>`;
-    let deslike = document.createElement("button");
+    if (post.likes.length > 0) {
+      like.innerHTML = `<i class="fas fa-thumbs-up"></i><span>${post.likes.length}</span>`;
+    } else {
+      like.innerHTML = `<i class="fas fa-thumbs-up"></i><span></span>`;
+    }
     deslike.classList.add("btn", "btn-light", "px-3", "py-1", "my-2");
     deslike.innerHTML = `<i class="fas fa-thumbs-down"></i>`;
     let comment = document.createElement("button");
-    comment.innerHTML = `Discussion <span></span>`;
+    if (post.comments.length > 0) {
+      comment.innerHTML = `Discussion <span>${post.comments.length}</span>`;
+    } else {
+      comment.innerHTML = `Discussion <span></span>`;
+    }
     comment.classList.add("btn", "btn-info", "px-3", "py-1", "my-2");
 
     likes.append(like, deslike, comment);
@@ -119,6 +146,4 @@ addEventListener("DOMContentLoaded", async () => {
       window.location.replace("/pages/post.html");
     });
   });
-
-  console.log(responseData);
 });

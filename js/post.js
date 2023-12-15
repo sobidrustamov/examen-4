@@ -69,6 +69,7 @@ addEventListener("DOMContentLoaded", async () => {
           delet.innerText = "delete post";
           likes.append(delet);
 
+          console.log(element_id);
           delet.addEventListener("click", async () => {
             let response = await axios.delete(`/posts/${userpost._id}`, {
               headers: {
@@ -120,7 +121,7 @@ addEventListener("DOMContentLoaded", async () => {
         let commentinfo = document.createElement("div");
         let commenttext = document.createElement("p");
         commenttext.innerText = element.text;
-        let commentdate = document.createElement("span");
+        let commentdate = document.createElement("p");
         let time = new Date(element.date);
         commentdate.innerText = `Posted on ${time.toLocaleDateString()}`;
 
@@ -138,25 +139,16 @@ addEventListener("DOMContentLoaded", async () => {
             delet.classList.add("btn", "btn-danger", "px-3", "py-1", "my-2");
             delet.innerText = "delete";
             commentinfo.append(delet);
-
-            // delet.addEventListener("click", async () => {
-            //   let response = await axios.delete(`/posts/${userpost._id}`, {
-            //     headers: {
-            //       "x-auth-token": `${localStorage.token}`,
-            //     },
-            //   });
-            //   window.location.reload();
-            // });
           }
         } catch (error) {}
 
         commentdiv.append(commentuser, commentinfo);
         com.append(commentdiv);
-        console.log(element);
+        // console.log(element);
 
         // let commentinfo = document.createElement("div");
       });
-      console.log(response.data.comments);
+      // console.log(response.data.comments);
     }
 
     form.addEventListener("submit", async (e) => {
