@@ -3,6 +3,12 @@ addEventListener("DOMContentLoaded", async () => {
   let links = document.querySelector(".links");
   let form = document.querySelector("form");
 
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.replace("/pages/login.html");
+  });
+
   axios.defaults.baseURL = "https://nt-devconnector.onrender.com/api";
 
   social.addEventListener("click", () => {
@@ -29,7 +35,7 @@ addEventListener("DOMContentLoaded", async () => {
   form[9].value = response.data.social.facebook;
   form[10].value = response.data.social.linkedin;
   form[11].value = response.data.social.instagram;
-  
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     let status = form[0].value;

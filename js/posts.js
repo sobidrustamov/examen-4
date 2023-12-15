@@ -4,6 +4,12 @@ addEventListener("DOMContentLoaded", async () => {
   let form = document.querySelector("form");
   let posts = document.querySelector("div");
 
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.replace("/pages/login.html");
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     let text = form[0].value;

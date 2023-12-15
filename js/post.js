@@ -1,6 +1,7 @@
 addEventListener("DOMContentLoaded", async () => {
   axios.defaults.baseURL = "https://nt-devconnector.onrender.com/api";
   let main = document.querySelector("#main-register");
+  let com = document.querySelector("#comment");
   let form = document.querySelector("form");
   main.innerHTML = `<a href="/pages/posts.html" class="btn btn-light">Back to Post</a>`;
 
@@ -8,6 +9,12 @@ addEventListener("DOMContentLoaded", async () => {
     headers: {
       "x-auth-token": `${localStorage.token}`,
     },
+  });
+
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.replace("/pages/login.html");
   });
 
   let posts = response.data;
@@ -92,7 +99,62 @@ addEventListener("DOMContentLoaded", async () => {
       });
       let comments = response.data.comments;
       comments.forEach(async (element) => {
+        let commentdiv = document.createElement("div");
+        commentdiv.classList.add(
+          "bg-light",
+          "my-4",
+          "p-3",
+          "justify-content-between",
+          "d-flex"
+        );
+        let commentuser = document.createElement("div");
+        let commenavatar = document.createElement("img");
+        commenavatar.setAttribute("src", element.avatar);
+        commenavatar.classList.add("rounded-circle");
 
+        let commentuserName = document.createElement("h5");
+        commentuserName.innerText = element.name;
+
+        commentuser.append(commenavatar, commentuserName);
+        commentuser.classList.add("text-center", "w-25");
+        let commentinfo = document.createElement("div");
+        let commenttext = document.createElement("p");
+        commenttext.innerText = element.text;
+        let commentdate = document.createElement("span");
+        let time = new Date(element.date);
+        commentdate.innerText = `Posted on ${time.toLocaleDateString()}`;
+
+        commentinfo.append(commenttext, commentdate);
+        commentinfo.classList.add("w-50", "mt-5");
+
+        try {
+          let response = await axios.get("/profile/me", {
+            headers: {
+              "x-auth-token": `${localStorage.token}`,
+            },
+          });
+          if (response.data.user._id === userpost.user) {
+            let delet = document.createElement("button");
+            delet.classList.add("btn", "btn-danger", "px-3", "py-1", "my-2");
+            delet.innerText = "delete";
+            commentinfo.append(delet);
+
+            // delet.addEventListener("click", async () => {
+            //   let response = await axios.delete(`/posts/${userpost._id}`, {
+            //     headers: {
+            //       "x-auth-token": `${localStorage.token}`,
+            //     },
+            //   });
+            //   window.location.reload();
+            // });
+          }
+        } catch (error) {}
+
+        commentdiv.append(commentuser, commentinfo);
+        com.append(commentdiv);
+        console.log(element);
+
+        // let commentinfo = document.createElement("div");
       });
       console.log(response.data.comments);
     }

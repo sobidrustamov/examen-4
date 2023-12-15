@@ -3,6 +3,12 @@ addEventListener("DOMContentLoaded", () => {
   let links = document.querySelector(".links");
   let form = document.querySelector("form");
 
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.replace("/pages/login.html");
+  });
+
   axios.defaults.baseURL = "https://nt-devconnector.onrender.com/api";
 
   social.addEventListener("click", () => {

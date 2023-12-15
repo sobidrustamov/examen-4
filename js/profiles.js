@@ -4,6 +4,12 @@ addEventListener("DOMContentLoaded", async () => {
 
   let res = await axios.get("/profile");
 
+  let logout = document.querySelector("#logout");
+  logout.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.replace("/pages/login.html");
+  });
+
   res.data.forEach((profile) => {
     let profileDiv = document.createElement("div");
     profileDiv.classList.add(
@@ -228,7 +234,7 @@ addEventListener("DOMContentLoaded", async () => {
       head.append(img, name, jobComp, location, links);
       profileDiv.append(bio, biotext, hr, title, skill);
 
-      console.log(profile.experience);
+      // console.log(profile.experience);
 
       let gittitle = document.createElement("h3");
       let repodiv = document.createElement("div");
@@ -245,11 +251,13 @@ addEventListener("DOMContentLoaded", async () => {
         gittitle.classList.add("text-info");
 
         response.data.forEach((repo) => {
+          // console.log(repo);
           repodiv.classList.add("p-2");
           let repolink = document.createElement("a");
           let rep = document.createElement("div");
 
-          repolink.setAttribute("href", repo.git_url);
+          repolink.setAttribute("href", repo.clone_url);
+          repolink.setAttribute("target", "_blank");
           repolink.innerText = repo.name;
           repolink.classList.add("text-info");
           rep.append(repolink);
@@ -257,7 +265,7 @@ addEventListener("DOMContentLoaded", async () => {
           repodiv.append(rep);
         });
 
-        console.log(response);
+        // console.log(response);
       } catch (error) {}
       main.append(head, profileDiv, expedu, gittitle, repodiv);
     });

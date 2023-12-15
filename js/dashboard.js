@@ -1,13 +1,13 @@
 addEventListener("DOMContentLoaded", async () => {
   axios.defaults.baseURL = "https://nt-devconnector.onrender.com/api";
 
-  let logout = document.querySelector("#logout");
   let welcome = document.querySelector("#welcome");
   let wel = document.querySelector("#wel");
   let create = document.querySelector("#create");
   let profileInfo = document.querySelector("#profile-info");
-
+  
   console.log(localStorage.token);
+  let logout = document.querySelector("#logout");
   logout.addEventListener("click", () => {
     localStorage.removeItem("token");
     window.location.replace("/pages/login.html");
