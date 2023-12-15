@@ -33,9 +33,8 @@ addEventListener("DOMContentLoaded", async () => {
   });
 
   let responseData = response.data;
+  console.log(responseData);
   responseData.forEach(async (post) => {
-    console.log(post);
-
     let postWrapper = document.createElement("div");
 
     let postLink = document.createElement("a");
@@ -117,7 +116,10 @@ addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {}
     likes.classList.add("d-flex", "gap-2", "w-100");
-    postDiscrip.innerText = `Posted on`;
+
+    let time = new Date(post.date);
+    postDiscrip.innerText = `Posted on ${time.toLocaleDateString()}`;
+
     postText.innerText = post.text;
     postText.classList.add("my-5", "fs-4");
 

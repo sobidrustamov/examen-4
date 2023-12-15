@@ -1,4 +1,5 @@
 addEventListener("DOMContentLoaded", async () => {
+  
   axios.defaults.baseURL = "https://nt-devconnector.onrender.com/api";
   let main = document.querySelector("#main-register");
   let com = document.querySelector("#comment");
